@@ -132,7 +132,7 @@ public class EmailClientProgram {
             ObjectInputStream os = new ObjectInputStream(fileStream);
             while (true) {
                 try {
-                    emails.add((Email) os.readObject());
+                    emails.add((Email)os.readObject());
                 } catch (EOFException exc) {
                     os.close();
                     break;
