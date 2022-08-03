@@ -35,17 +35,17 @@ public class RecipientCreator {
     }
 
     public static void addRecipientToList(String[] recipientData) {
-        String friendState = recipientData[0];
+        String friendState = recipientData[0].toLowerCase().trim();
         switch (friendState) {
-            case "Official":
+            case "official":
                 allRecipients.add(new OfficialRecipient(recipientData[1], recipientData[2], recipientData[3]));
                 break;
-            case "Office_friend":
+            case "office_friend":
                 OfficeFriendRecipient officeFriendRecipient = new OfficeFriendRecipient(recipientData[1], recipientData[2], recipientData[3], recipientData[4]);
                 allRecipients.add(officeFriendRecipient);
                 wishableRecipients.add(officeFriendRecipient);
                 break;
-            case "Personal":
+            case "personal":
                 PersonalRecipient personalRecipient = new PersonalRecipient(recipientData[1], recipientData[2], recipientData[3], recipientData[4]);
                 allRecipients.add(personalRecipient);
                 wishableRecipients.add(personalRecipient);

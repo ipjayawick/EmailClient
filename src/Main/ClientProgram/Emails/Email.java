@@ -34,4 +34,9 @@ public class Email implements Serializable {
     public String getRecipientEmail() {
         return recipientEmail;
     }
+    public String getEmailSummary(){
+        return ("Recipient:\t"+recipientEmail+
+                "\nSubject:\t"+subject+
+                "\nMessage:\t"+content+"\n");
+    }
 }

@@ -121,7 +121,7 @@ public class EmailClientProgram {
     public void printEmailsSentOnDate(String inputDate) throws IOException, ClassNotFoundException, ParseException {
         for (Email email : emails) {
             if (DateChecker.isEqual(email.getSentDate(), inputDate)) {
-                System.out.println(email.getSubject());
+                System.out.println(email.getEmailSummary());
             }
         }
     }
