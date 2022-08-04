@@ -21,7 +21,6 @@ public class EmailClientProgram {
     private final ArrayList<Email> emails = new ArrayList<>();
     private ArrayList<Recipient> allRecipients = new ArrayList<>();
     private ArrayList<Wishable> wishableRecipients = new ArrayList<>();
-
     public EmailClientProgram() throws IOException, ParseException, ClassNotFoundException, MessagingException {
         new File("src/Main/SavedFiles/Emails.ser").createNewFile();
         new File("src/Main/SavedFiles/clientList.txt").createNewFile();
@@ -54,9 +53,9 @@ public class EmailClientProgram {
     }
 
     public void addRecipient(String userInput) {
-        String[] recipient = userInput.replaceAll("\\s+","").split(":|,");
+        String[] recipient = userInput.replaceAll("\\s+", "").split(":|,");
         boolean isAdded = RecipientCreator.addRecipientToList(recipient);
-        if(!isAdded)return;
+        if (!isAdded) return;
         allRecipients = RecipientCreator.getAllRecipients();
         wishableRecipients = RecipientCreator.getWishableRecipients();
         try {
@@ -76,9 +75,9 @@ public class EmailClientProgram {
 
     public void sendEmail(String userInput) {
         String[] emailData = userInput.split(",");
-        String recipientEmail = null;
-        String subject = null;
-        String content = null;
+        String recipientEmail;
+        String subject;
+        String content;
         try {
             recipientEmail = emailData[0];
             subject = emailData[1];
@@ -111,27 +110,27 @@ public class EmailClientProgram {
 //        os.writeObject(email);
 //        os.close();
         File f = new File("src/Main/SavedFiles/Emails.ser");
-            FileOutputStream fos = new FileOutputStream("src/Main/SavedFiles/Emails.ser", true);
-            if (f.length() == 0) {
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(email);
-                oos.close();
-            } else {
-                MyObjectOutputStream oos = new MyObjectOutputStream(fos);
-                oos.writeObject(email);
-                oos.close();
-            }
-            fos.close();
+        FileOutputStream fos = new FileOutputStream("src/Main/SavedFiles/Emails.ser", true);
+        if (f.length() == 0) {
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(email);
+            oos.close();
+        } else {
+            MyObjectOutputStream oos = new MyObjectOutputStream(fos);
+            oos.writeObject(email);
+            oos.close();
+        }
+        fos.close();
     }
 
     public void printRecipientCount() {
-        System.out.println("Number of Recipients : "+Recipient.RecipientCount);
+        System.out.println("Number of Recipients : " + Recipient.RecipientCount);
     }
 
-    public void printEmailsSentOnDate(String inputDate){
+    public void printEmailsSentOnDate(String inputDate) {
         if (emails.isEmpty()) {
             System.out.println("No Emails!");
-        }else {
+        } else {
             for (Email email : emails) {
                 try {
                     if (DateChecker.isEqual(email.getSentDate(), inputDate)) {
@@ -147,23 +146,25 @@ public class EmailClientProgram {
     }
 
     private void loadEmails() throws IOException, ClassNotFoundException {
-            FileInputStream fileStream = new FileInputStream("src/Main/SavedFiles/Emails.ser");
-            ObjectInputStream os = new ObjectInputStream(fileStream);
+        File file=new File("src/Main/SavedFiles/Emails.ser");
+        if(file.length()==0)return;
+        FileInputStream fileStream = new FileInputStream(file);
+        ObjectInputStream os = new ObjectInputStream(fileStream);
 
-            while (true) {
-                try {
-                    emails.add((Email) os.readObject());
-                } catch (EOFException exc) {
-                    os.close();
-                    break;
-                }
+        while (true) {
+            try {
+                emails.add((Email) os.readObject());
+            } catch (EOFException exc) {
+                os.close();
+                break;
             }
+        }
     }
 
     public void printRecipientsWithBirthDate(String inputDate) {
-        if(wishableRecipients.isEmpty()){
+        if (wishableRecipients.isEmpty()) {
             System.out.println("No Birthdays today!");
-        }else {
+        } else {
             for (Wishable wishable : wishableRecipients) {
                 try {
                     if (DateChecker.isEqual(wishable.getBirthday(), inputDate)) {

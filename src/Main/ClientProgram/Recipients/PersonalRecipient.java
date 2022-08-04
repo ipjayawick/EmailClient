@@ -1,8 +1,8 @@
 package Main.ClientProgram.Recipients;
 
 public class PersonalRecipient extends Recipient implements Wishable {
-    String nickname;
-    String birthday;
+    private String nickname;
+    private final String birthday;
 
     public PersonalRecipient(String name, String nickname, String email, String birthday) {
         super(name, email);

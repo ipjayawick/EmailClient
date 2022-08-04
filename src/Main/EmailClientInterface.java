@@ -4,18 +4,17 @@ package Main;
 
 import Main.ClientProgram.EmailClientProgram;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.Scanner;
 
 public class EmailClientInterface {
     public static void main(String[] args) {
-        Boolean programOn = true;
+        boolean programOn = true;
         EmailClientProgram program = null;
         try {
             program = new EmailClientProgram();
         } catch (Exception e) {
-            System.out.println("Program Crashed While Opening!\nError--->\n"+e);
+            System.out.println("Program Crashed While Opening!\nError--->");
+            e.printStackTrace();
             System.exit(1);
         }
         Scanner scanner = new Scanner(System.in);
@@ -39,35 +38,33 @@ public class EmailClientInterface {
 
             switch (option) {
                 case 1:
-                    System.out.print("Enter recipient in this format --->\n" +
+                    System.out.println("Enter recipient in this format --->\n" +
                             "\tofficial: <name>, <email>,<designation>\n" +
                             "\tOffice_friend: <name>,<email>,<designation>,<birthday(yyyy/MM/dd)>\n" +
                             "\tPersonal: <name>,<nick-name>,<email>,<birthday(yyyy/MM/dd)>\n\n" +
-                            "\tExample---> Office_friend: kamal,kamal@gmail.com,clerk,2000/12/12\n");
+                            "\tExample---> Office_friend: kamal,kamal@gmail.com,clerk,2000/12/12");
                     userInput = scanner.nextLine();
                     program.addRecipient(userInput);
                     break;
                 case 2:
                     // input format - email, subject, content
-                    System.out.print("Enter details in the format ---> <email>, <subject>, <content>\n");
+                    System.out.println("Enter details in the format ---> <email>, <subject>, <content>");
                     userInput = scanner.nextLine();
                     program.sendEmail(userInput);//exception thrown
                     break;
                 case 3:
                     // input format - yyyy/MM/dd (ex: 2018/09/17)
-                    System.out.print("Enter date in the format ---> yyyy/MM/dd (ex: 2018/09/17)\n");
+                    System.out.println("Enter date in the format ---> yyyy/MM/dd (ex: 2018/09/17)");
                     userInput = scanner.nextLine();
                     program.printRecipientsWithBirthDate(userInput);
                     break;
                 case 4:
                     // input format - yyyy/MM/dd (ex: 2018/09/17)
-                    System.out.print("Enter date in the format ---> yyyy/MM/dd (ex: 2018/09/17)\n");
+                    System.out.println("Enter date in the format ---> yyyy/MM/dd (ex: 2018/09/17)");
                     userInput = scanner.nextLine();
                     program.printEmailsSentOnDate(userInput);
-                    // code to print the details of all the emails sent on the input date
                     break;
                 case 5:
-                    // code to print the number of recipient objects in the application
                     program.printRecipientCount();
                     break;
                 case 6:

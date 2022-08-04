@@ -5,7 +5,7 @@ import Main.ClientProgram.Emails.Email;
 import javax.mail.MessagingException;
 
 public class MailComposer {
-    static SendEmailTLS sendEmailTLS = new SendEmailTLS();
+    private static SendEmailTLS sendEmailTLS = new SendEmailTLS();
 
     private MailComposer() {
     }

@@ -3,7 +3,9 @@ package Main.ClientProgram.Utilities;
 import Main.ClientProgram.Recipients.*;
 import javafx.util.Pair;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RecipientCreator {
@@ -55,14 +57,15 @@ public class RecipientCreator {
     }
 
     private static void lineByLineText() throws IOException {
-            FileReader reader = new FileReader("src/Main/SavedFiles/clientList.txt");
-            BufferedReader bufferedReader = new BufferedReader(reader);
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] recipientData = line.split(":|\\,");
-                recipientDataList.add(recipientData);
-            }
-            reader.close();
+
+        FileReader reader = new FileReader("src/Main/SavedFiles/clientList.txt");
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null) {
+            String[] recipientData = line.split(":|\\,");
+            recipientDataList.add(recipientData);
+        }
+        reader.close();
     }
 
 }

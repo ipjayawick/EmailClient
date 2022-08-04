@@ -1,17 +1,16 @@
 package Main.JavaMail;
 
 import javax.mail.*;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class SendEmailTLS {
-    final String username = "isurupramudith.20@cse.mrt.ac.lk";
-    final String password = "qwerzxcvasdf1234cse";
-    Session session;
+    private final String username = "isurupramudith.20@cse.mrt.ac.lk";
+    private final String password = "qwerzxcvasdf1234cse";
+    private Session session;
 
-    public SendEmailTLS() {
+    SendEmailTLS() {
         initialize();
     }
 
@@ -30,18 +29,18 @@ public class SendEmailTLS {
                 });
     }
 
-    public void send(String recipientEmail, String subject, String content) throws MessagingException {
+    void send(String recipientEmail, String subject, String content) throws MessagingException {
 //        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("from@gmail.com"));
-            message.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse(recipientEmail)
-            );
-            message.setSubject(subject);
-            message.setText(content);
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("from@gmail.com"));
+        message.setRecipients(
+                Message.RecipientType.TO,
+                InternetAddress.parse(recipientEmail)
+        );
+        message.setSubject(subject);
+        message.setText(content);
 
-            Transport.send(message);
+        Transport.send(message);
 
 //
 //        } catch (MessagingException e) {
