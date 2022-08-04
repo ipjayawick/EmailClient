@@ -11,6 +11,7 @@ import Main.ClientProgram.Utilities.RecipientCreator;
 import Main.JavaMail.MailComposer;
 import javafx.util.Pair;
 
+import javax.mail.MessagingException;
 import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class EmailClientProgram {
     private ArrayList<Recipient> allRecipients = new ArrayList<>();
     private ArrayList<Wishable> wishableRecipients = new ArrayList<>();
 
-    public EmailClientProgram() throws IOException, ParseException, ClassNotFoundException {
+    public EmailClientProgram() throws IOException, ParseException, ClassNotFoundException, MessagingException {
         new File("src/Main/SavedFiles/Emails.ser").createNewFile();
         new File("src/Main/SavedFiles/clientList.txt").createNewFile();
         loadRecipientLists();
@@ -44,26 +45,25 @@ public class EmailClientProgram {
         }
     }
 
-    private void sendBirthdayGreetings() throws IOException {
+    private void sendBirthdayGreetings() throws IOException, MessagingException {
         for (Wishable wishable : birthdayRecipients) {
             Email email = new BirthdayEmailCreator().createEmail(wishable);
-            boolean isEmailSent = MailComposer.sendEmail(email);
-            if (isEmailSent) {
-                saveOnDisk(email);
-            }
+            MailComposer.sendEmail(email);
+            saveOnDisk(email);
         }
     }
 
     public void addRecipient(String userInput) {
-        String[] recipient = userInput.split(":|\\,");
-        RecipientCreator.addRecipientToList(recipient);
+        String[] recipient = userInput.replaceAll("\\s+","").split(":|,");
+        boolean isAdded = RecipientCreator.addRecipientToList(recipient);
+        if(!isAdded)return;
         allRecipients = RecipientCreator.getAllRecipients();
         wishableRecipients = RecipientCreator.getWishableRecipients();
         try {
             saveOnDisk(userInput);
             System.out.println("Recipient added Successfully!");
         } catch (IOException e) {
-            System.out.println("Error: Recipient Not added!");
+            System.out.println("Error: Recipient Not Saved on disk!");
             System.out.println(e);
         }
     }
@@ -76,13 +76,21 @@ public class EmailClientProgram {
 
     public void sendEmail(String userInput) {
         String[] emailData = userInput.split(",");
-        String recipientEmail = emailData[0];
-        String subject = emailData[1];
-        String content = emailData[2];
+        String recipientEmail = null;
+        String subject = null;
+        String content = null;
+        try {
+            recipientEmail = emailData[0];
+            subject = emailData[1];
+            content = emailData[2];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Invalid Email Format!");
+            return;
+        }
 
         Email email = new CustomEmailCreator().createEmail(recipientEmail, subject, content);
-        boolean isEmailSent = MailComposer.sendEmail(email);
-        if (isEmailSent) {
+        try {
+            MailComposer.sendEmail(email);
             System.out.println("Email Sent Successfully!");
             emails.add(email);
             try {
@@ -91,6 +99,9 @@ public class EmailClientProgram {
                 System.out.println("Error: Email not saved to Disk!");
                 System.out.println(e);
             }
+        } catch (MessagingException e) {
+            System.out.println("Error: Email Not Sent!");
+            System.out.println(e);
         }
     }
 
@@ -114,7 +125,7 @@ public class EmailClientProgram {
     }
 
     public void printRecipientCount() {
-        System.out.println(Recipient.RecipientCount);
+        System.out.println("Number of Recipients : "+Recipient.RecipientCount);
     }
 
     public void printEmailsSentOnDate(String inputDate){

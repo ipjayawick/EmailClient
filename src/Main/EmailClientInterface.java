@@ -16,20 +16,26 @@ public class EmailClientInterface {
             program = new EmailClientProgram();
         } catch (Exception e) {
             System.out.println("Program Crashed While Opening!\nError--->\n"+e);
+            System.exit(1);
         }
         Scanner scanner = new Scanner(System.in);
         String userInput;
 
         while (programOn) {
-            System.out.println("Enter option type: \n" +
+            System.out.println("\nEnter option : \n" +
                     "1 - Adding a new recipient\n" +
                     "2 - Sending an email\n" +
                     "3 - Printing out all the recipients who have birthdays\n" +
                     "4 - Printing out details of all the emails sent\n" +
                     "5 - Printing out the number of recipient objects in the application\n" +
                     "6 - Exit");
-
-            int option = Integer.parseInt(scanner.nextLine());
+            int option;
+            try {
+                option = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Enter a Valid Number!");
+                continue;
+            }
 
             switch (option) {
                 case 1:

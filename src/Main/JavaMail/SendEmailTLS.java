@@ -1,6 +1,7 @@
 package Main.JavaMail;
 
 import javax.mail.*;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
@@ -29,8 +30,8 @@ public class SendEmailTLS {
                 });
     }
 
-    public boolean send(String recipientEmail, String subject, String content) {
-        try {
+    public void send(String recipientEmail, String subject, String content) throws MessagingException {
+//        try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("from@gmail.com"));
             message.setRecipients(
@@ -42,12 +43,11 @@ public class SendEmailTLS {
 
             Transport.send(message);
 
-            return true;
+//
+//        } catch (MessagingException e) {
+//            System.out.println("Email not Sent!");
+//            e.printStackTrace();
+//        }
 
-        } catch (MessagingException e) {
-            System.out.println("Email not Sent!");
-            e.printStackTrace();
-        }
-        return false;
     }
 }

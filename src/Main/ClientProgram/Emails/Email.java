@@ -35,6 +35,6 @@ public class Email implements Serializable {
 
     public String getEmailSummary() {
         return ("Recipient:\t" + recipientEmail +
-                "\nSubject:\t" + subject);
+                "\nSubject:\t" + subject+"\n");
     }
 }
