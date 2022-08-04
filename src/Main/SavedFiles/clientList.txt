@@ -1,1 +1,4 @@
-Office_friend: kamal,kamal@gmail.com,clerk,2000/12/12
+Office_friend: kamal,ipjayawick@gmail.com,clerk,2022/8/4
+Office_friend: amal,ipjayawick@gmail.com,clerk,2022/8/4
+Office_friend: namal,ipjayawick@gmail.com,clerk,2022/8/4
+Office_friend: hamal,ipjayawick@gmail.com,clerk,2022/8/4

@@ -7,15 +7,15 @@ import java.io.Serializable;
 public class Email implements Serializable {
     private final String subject;
     private final String content;
-    private String sentDate;
     private final String recipientEmail;
+    private final String sentDate;
 
 
     public Email(String recipientEmail, String subject, String content) {
         this.subject = subject;
         this.content = content;
         this.recipientEmail = recipientEmail;
-        this.sentDate= DateChecker.getCurrentDate();
+        this.sentDate = DateChecker.getCurrentDate();
     }
 
 
@@ -34,9 +34,10 @@ public class Email implements Serializable {
     public String getRecipientEmail() {
         return recipientEmail;
     }
-    public String getEmailSummary(){
-        return ("Recipient:\t"+recipientEmail+
-                "\nSubject:\t"+subject+
-                "\nMessage:\t"+content+"\n");
+
+    public String getEmailSummary() {
+        return ("Recipient:\t" + recipientEmail +
+                "\nSubject:\t" + subject +
+                "\nMessage:\t" + content + "\n");
     }
 }

@@ -6,14 +6,15 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class SendEmailTLS {
-    Session session;
     final String username = "isurupramudith.20@cse.mrt.ac.lk";
     final String password = "qwerzxcvasdf1234cse";
+    Session session;
+
     public SendEmailTLS() {
         initialize();
     }
 
-    private void initialize(){
+    private void initialize() {
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
@@ -27,6 +28,7 @@ public class SendEmailTLS {
                     }
                 });
     }
+
     public boolean send(String recipientEmail, String subject, String content) {
         try {
             Message message = new MimeMessage(session);

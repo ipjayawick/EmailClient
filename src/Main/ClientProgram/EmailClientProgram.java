@@ -17,9 +17,9 @@ import java.util.ArrayList;
 
 public class EmailClientProgram {
     private final ArrayList<Wishable> birthdayRecipients = new ArrayList<>();
+    private final ArrayList<Email> emails = new ArrayList<>();
     private ArrayList<Recipient> allRecipients = new ArrayList<>();
     private ArrayList<Wishable> wishableRecipients = new ArrayList<>();
-    private final ArrayList<Email> emails = new ArrayList<>();
 
     public EmailClientProgram() throws IOException, ParseException, ClassNotFoundException {
         loadRecipientLists();
@@ -48,7 +48,6 @@ public class EmailClientProgram {
             boolean isEmailSent = MailComposer.sendEmail(email);
             if (isEmailSent) {
                 saveOnDisk(email);
-                emails.add(email);
             }
         }
     }
@@ -94,22 +93,20 @@ public class EmailClientProgram {
 //        ObjectOutputStream os = new ObjectOutputStream(fileStream);
 //        os.writeObject(email);
 //        os.close();
-        File f=new File("src/Main/SavedFiles/Emails.ser");
+        File f = new File("src/Main/SavedFiles/Emails.ser");
         try {
             FileOutputStream fos = new FileOutputStream("src/Main/SavedFiles/Emails.ser", true);
             if (f.length() == 0) {
                 ObjectOutputStream oos = new ObjectOutputStream(fos);
                 oos.writeObject(email);
                 oos.close();
-            }
-            else {
-                MyObjectOutputStream oos= new MyObjectOutputStream(fos);
+            } else {
+                MyObjectOutputStream oos = new MyObjectOutputStream(fos);
                 oos.writeObject(email);
                 oos.close();
             }
             fos.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Error Occurred" + e);
         }
     }
@@ -132,7 +129,7 @@ public class EmailClientProgram {
             ObjectInputStream os = new ObjectInputStream(fileStream);
             while (true) {
                 try {
-                    emails.add((Email)os.readObject());
+                    emails.add((Email) os.readObject());
                 } catch (EOFException exc) {
                     os.close();
                     break;

@@ -19,7 +19,8 @@ public class DateChecker {
         boolean isToday = sdFormat.format(d).equals(sdFormat.format(new Date()));
         return isToday;
     }
-    public static String getCurrentDate(){
+
+    public static String getCurrentDate() {
         return sdFormat.format(new Date());
     }
 }

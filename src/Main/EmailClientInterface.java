@@ -31,7 +31,7 @@ public class EmailClientInterface {
                     System.out.print("Enter recipient in this format --->\n" +
                             "\tofficial: <name>, <email>,<designation>\n" +
                             "\tOffice_friend: <name>,<email>,<designation>,<birthday(yyyy/MM/dd)>\n" +
-                            "\tPersonal: <name>,<nick-name>,<email>,<birthday(yyyy/MM/dd)>\n\n"+
+                            "\tPersonal: <name>,<nick-name>,<email>,<birthday(yyyy/MM/dd)>\n\n" +
                             "\tExample---> Office_friend: kamal,kamal@gmail.com,clerk,2000/12/12\n");
                     userInput = scanner.nextLine();
                     program.addRecipient(userInput);
