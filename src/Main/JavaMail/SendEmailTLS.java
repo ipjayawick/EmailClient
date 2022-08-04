@@ -30,7 +30,6 @@ public class SendEmailTLS {
     }
 
     void send(String recipientEmail, String subject, String content) throws MessagingException {
-//        try {
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress("from@gmail.com"));
         message.setRecipients(
@@ -41,12 +40,5 @@ public class SendEmailTLS {
         message.setText(content);
 
         Transport.send(message);
-
-//
-//        } catch (MessagingException e) {
-//            System.out.println("Email not Sent!");
-//            e.printStackTrace();
-//        }
-
     }
 }

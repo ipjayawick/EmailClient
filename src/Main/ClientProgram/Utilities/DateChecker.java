@@ -14,10 +14,10 @@ public class DateChecker {
         return isEqual;
     }
 
-    public static boolean isToday(String date) throws ParseException {
-        Date d = sdFormat.parse(date);
-        boolean isToday = sdFormat.format(d).equals(sdFormat.format(new Date()));
-        return isToday;
+    public static boolean isTodayBirthday(String date) throws ParseException {
+        Date inputDate = sdFormat.parse(date);
+        Date today = new Date();
+        return (today.getMonth() == inputDate.getMonth() && today.getDate() == inputDate.getDate());
     }
 
     public static String getCurrentDate() {

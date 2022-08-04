@@ -14,7 +14,7 @@ public class EmailClientInterface {
             program = new EmailClientProgram();
         } catch (Exception e) {
             System.out.println("Program Crashed While Opening!\nError--->");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             System.exit(1);
         }
         Scanner scanner = new Scanner(System.in);

@@ -21,7 +21,9 @@ public class EmailClientProgram {
     private final ArrayList<Email> emails = new ArrayList<>();
     private ArrayList<Recipient> allRecipients = new ArrayList<>();
     private ArrayList<Wishable> wishableRecipients = new ArrayList<>();
+
     public EmailClientProgram() throws IOException, ParseException, ClassNotFoundException, MessagingException {
+        System.out.println("Email Client Program is Starting...");
         new File("src/Main/SavedFiles/Emails.ser").createNewFile();
         new File("src/Main/SavedFiles/clientList.txt").createNewFile();
         loadRecipientLists();
@@ -38,7 +40,7 @@ public class EmailClientProgram {
 
     private void loadBirthdayRecipients() throws ParseException {
         for (Wishable wishable : wishableRecipients) {
-            if (DateChecker.isToday(wishable.getBirthday())) {
+            if (DateChecker.isTodayBirthday(wishable.getBirthday())) {
                 birthdayRecipients.add(wishable);
             }
         }
@@ -63,7 +65,7 @@ public class EmailClientProgram {
             System.out.println("Recipient added Successfully!");
         } catch (IOException e) {
             System.out.println("Error: Recipient Not Saved on disk!");
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -96,19 +98,15 @@ public class EmailClientProgram {
                 saveOnDisk(email);
             } catch (IOException e) {
                 System.out.println("Error: Email not saved to Disk!");
-                System.out.println(e);
+                System.out.println(e.getMessage());
             }
         } catch (MessagingException e) {
             System.out.println("Error: Email Not Sent!");
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 
     private void saveOnDisk(Email email) throws IOException {
-//        FileOutputStream fileStream = new FileOutputStream("src/Main/SavedFiles/Emails.ser");
-//        ObjectOutputStream os = new ObjectOutputStream(fileStream);
-//        os.writeObject(email);
-//        os.close();
         File f = new File("src/Main/SavedFiles/Emails.ser");
         FileOutputStream fos = new FileOutputStream("src/Main/SavedFiles/Emails.ser", true);
         if (f.length() == 0) {
@@ -128,26 +126,25 @@ public class EmailClientProgram {
     }
 
     public void printEmailsSentOnDate(String inputDate) {
-        if (emails.isEmpty()) {
-            System.out.println("No Emails!");
-        } else {
-            for (Email email : emails) {
-                try {
-                    if (DateChecker.isEqual(email.getSentDate(), inputDate)) {
-                        System.out.println(email.getEmailSummary());
-                    }
-                } catch (ParseException e) {
-                    System.out.println("Error:");
-                    System.out.println(e);
-                    return;
+        boolean isPresent = false;
+        for (Email email : emails) {
+            try {
+                if (DateChecker.isEqual(email.getSentDate(), inputDate)) {
+                    System.out.println(email.getEmailSummary());
+                    isPresent = true;
                 }
+            } catch (ParseException e) {
+                System.out.println("Error:");
+                System.out.println(e.getMessage());
+                return;
             }
         }
+        if (!isPresent) System.out.println("No Emails on given date");
     }
 
     private void loadEmails() throws IOException, ClassNotFoundException {
-        File file=new File("src/Main/SavedFiles/Emails.ser");
-        if(file.length()==0)return;
+        File file = new File("src/Main/SavedFiles/Emails.ser");
+        if (file.length() == 0) return;
         FileInputStream fileStream = new FileInputStream(file);
         ObjectInputStream os = new ObjectInputStream(fileStream);
 
@@ -162,20 +159,19 @@ public class EmailClientProgram {
     }
 
     public void printRecipientsWithBirthDate(String inputDate) {
-        if (wishableRecipients.isEmpty()) {
-            System.out.println("No Birthdays today!");
-        } else {
-            for (Wishable wishable : wishableRecipients) {
-                try {
-                    if (DateChecker.isEqual(wishable.getBirthday(), inputDate)) {
-                        System.out.println(wishable.getName());
-                    }
-                } catch (ParseException e) {
-                    System.out.println("Error:");
-                    System.out.println(e);
-                    return;
+        boolean isPresent = false;
+        for (Wishable wishable : wishableRecipients) {
+            try {
+                if (DateChecker.isEqual(wishable.getBirthday(), inputDate)) {
+                    System.out.println(wishable.getName());
+                    isPresent = true;
                 }
+            } catch (ParseException e) {
+                System.out.println("Error:");
+                System.out.println(e.getMessage());
+                return;
             }
         }
+        if (!isPresent) System.out.println("No birthdays on given date");
     }
 }
