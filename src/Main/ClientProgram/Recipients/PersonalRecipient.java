@@ -12,7 +12,7 @@ public class PersonalRecipient extends Recipient implements Wishable {
 
     @Override
     public String getBirthdayWishMsg() {
-        return "hugs and love on your birthday.";
+        return "Hugs and love on your birthday!";
     }
 
     @Override

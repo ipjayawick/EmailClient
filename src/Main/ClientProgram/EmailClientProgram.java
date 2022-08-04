@@ -22,6 +22,8 @@ public class EmailClientProgram {
     private ArrayList<Wishable> wishableRecipients = new ArrayList<>();
 
     public EmailClientProgram() throws IOException, ParseException, ClassNotFoundException {
+        new File("src/Main/SavedFiles/Emails.ser").createNewFile();
+        new File("src/Main/SavedFiles/clientList.txt").createNewFile();
         loadRecipientLists();
         loadBirthdayRecipients();
         sendBirthdayGreetings();
@@ -112,7 +114,7 @@ public class EmailClientProgram {
     }
 
     public void printRecipientCount() {
-        System.out.println(allRecipients.size());
+        System.out.println(Recipient.RecipientCount);
     }
 
     public void printEmailsSentOnDate(String inputDate) throws IOException, ClassNotFoundException, ParseException {

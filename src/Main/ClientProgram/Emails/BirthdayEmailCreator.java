@@ -7,7 +7,7 @@ public class BirthdayEmailCreator extends EmailCreator {
 
     public Email createEmail(Wishable wishable) {
         this.wishableRecipient = wishable;
-        this.email = new Email(wishableRecipient.getEmail(), "subject", wishableRecipient.getBirthdayWishMsg());
+        this.email = new Email(wishableRecipient.getEmail(), "Birthday Wishes!", wishableRecipient.getBirthdayWishMsg()+"\n"+"Isuru");
         return email;
     }
 }

@@ -12,7 +12,7 @@ public class OfficeFriendRecipient extends Recipient implements Wishable {
 
     @Override
     public String getBirthdayWishMsg() {
-        return "Wish you a Happy Birthday.";
+        return "Wish you a Happy Birthday!";
     }
 
     @Override
