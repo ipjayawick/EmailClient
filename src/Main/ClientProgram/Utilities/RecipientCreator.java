@@ -3,10 +3,7 @@ package Main.ClientProgram.Utilities;
 import Main.ClientProgram.Recipients.*;
 import javafx.util.Pair;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class RecipientCreator {
@@ -23,12 +20,12 @@ public class RecipientCreator {
         return wishableRecipients;
     }
 
-    public static Pair<ArrayList<Recipient>, ArrayList<Wishable>> initializeAndGetRecipientLists() {
+    public static Pair<ArrayList<Recipient>, ArrayList<Wishable>> initializeAndGetRecipientLists() throws IOException {
         loadRecipientLists();
         return new Pair<>(allRecipients, wishableRecipients);
     }
 
-    private static void loadRecipientLists() {
+    private static void loadRecipientLists() throws IOException {
         lineByLineText();
         for (String[] recipientData : recipientDataList) {
             addRecipientToList(recipientData);
@@ -54,8 +51,7 @@ public class RecipientCreator {
         }
     }
 
-    private static void lineByLineText() {
-        try {
+    private static void lineByLineText() throws IOException {
             FileReader reader = new FileReader("src/Main/SavedFiles/clientList.txt");
             BufferedReader bufferedReader = new BufferedReader(reader);
             String line = null;
@@ -64,9 +60,6 @@ public class RecipientCreator {
                 recipientDataList.add(recipientData);
             }
             reader.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
 }

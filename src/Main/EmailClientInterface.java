@@ -9,9 +9,14 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 public class EmailClientInterface {
-    public static void main(String[] args) throws IOException, ClassNotFoundException, ParseException {
+    public static void main(String[] args) {
         Boolean programOn = true;
-        EmailClientProgram program = new EmailClientProgram();
+        EmailClientProgram program = null;
+        try {
+            program = new EmailClientProgram();
+        } catch (Exception e) {
+            System.out.println("Program Crashed While Opening!\nError--->\n"+e);
+        }
         Scanner scanner = new Scanner(System.in);
         String userInput;
 

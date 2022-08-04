@@ -45,6 +45,7 @@ public class SendEmailTLS {
             return true;
 
         } catch (MessagingException e) {
+            System.out.println("Email not Sent!");
             e.printStackTrace();
         }
         return false;
