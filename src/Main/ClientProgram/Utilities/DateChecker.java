@@ -2,6 +2,7 @@ package Main.ClientProgram.Utilities;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class DateChecker {
@@ -22,5 +23,10 @@ public class DateChecker {
 
     public static String getCurrentDate() {
         return sdFormat.format(new Date());
+    }
+
+    public static String getCurrentTime(){
+        SimpleDateFormat format=new SimpleDateFormat("hh:mm a");
+        return format.format(new Date());
     }
 }

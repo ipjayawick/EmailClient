@@ -74,6 +74,7 @@ public class EmailClientProgram {
         Email email = new BirthdayEmailCreator().createEmail(wishable);
         try {
             MailComposer.sendEmail(email);
+            emails.add(email);
             saveOnDisk(email);
         } catch (MessagingException | IOException e) {
             System.out.println(e.getMessage());
