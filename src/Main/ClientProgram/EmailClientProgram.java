@@ -14,20 +14,39 @@ import javafx.util.Pair;
 import javax.mail.MessagingException;
 import java.io.*;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class EmailClientProgram {
     private final ArrayList<Email> emails = new ArrayList<>();
     private ArrayList<Recipient> allRecipients = new ArrayList<>();
     private ArrayList<Wishable> wishableRecipients = new ArrayList<>();
+    private static String lastAccess=null;
 
     public EmailClientProgram() throws IOException, ParseException, ClassNotFoundException, MessagingException {
         System.out.println("Email Client Program is Starting...");
+        new File("src/Main/SavedFiles/log.txt").createNewFile();
         new File("src/Main/SavedFiles/Emails.ser").createNewFile();
         new File("src/Main/SavedFiles/clientList.txt").createNewFile();
+        refreshLog();
         loadRecipientLists();
         sendBirthdayGreetings();
         loadEmails();
+    }
+
+    private void refreshLog() throws IOException {
+        File file=new File("src/Main/SavedFiles/log.txt");
+        if(file.length()==0){
+            lastAccess=null;
+        }else {
+            String date = new BufferedReader(new FileReader(file)).readLine();
+            lastAccess=date;
+        }
+        FileWriter writer = new FileWriter("src/Main/SavedFiles/log.txt");
+        writer.write(DateChecker.getCurrentDate());
+        writer.close();
     }
 
     private void loadRecipientLists() throws IOException {
@@ -37,6 +56,10 @@ public class EmailClientProgram {
     }
 
     private void sendBirthdayGreetings() throws IOException, MessagingException, ParseException {
+        if(lastAccess!=null&&lastAccess.equals(DateChecker.getCurrentDate())){
+            return;
+        }
+        System.out.println("Sending Birthday wishes...");
         for (Wishable wishable : wishableRecipients) {
             if (DateChecker.isTodayBirthday(wishable.getBirthday())) {
                 Email email = new BirthdayEmailCreator().createEmail(wishable);
