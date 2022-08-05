@@ -17,7 +17,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 public class EmailClientProgram {
-    private final ArrayList<Wishable> birthdayRecipients = new ArrayList<>();
     private final ArrayList<Email> emails = new ArrayList<>();
     private ArrayList<Recipient> allRecipients = new ArrayList<>();
     private ArrayList<Wishable> wishableRecipients = new ArrayList<>();
@@ -27,7 +26,6 @@ public class EmailClientProgram {
         new File("src/Main/SavedFiles/Emails.ser").createNewFile();
         new File("src/Main/SavedFiles/clientList.txt").createNewFile();
         loadRecipientLists();
-        loadBirthdayRecipients();
         sendBirthdayGreetings();
         loadEmails();
     }
@@ -38,58 +36,51 @@ public class EmailClientProgram {
         wishableRecipients = pair.getValue();
     }
 
-    private void loadBirthdayRecipients() throws ParseException {
+    private void sendBirthdayGreetings() throws IOException, MessagingException, ParseException {
         for (Wishable wishable : wishableRecipients) {
             if (DateChecker.isTodayBirthday(wishable.getBirthday())) {
-                birthdayRecipients.add(wishable);
+                Email email = new BirthdayEmailCreator().createEmail(wishable);
+                MailComposer.sendEmail(email);
+                saveOnDisk(email);
             }
         }
     }
 
-    private void sendBirthdayGreetings() throws IOException, MessagingException {
-        for (Wishable wishable : birthdayRecipients) {
-            Email email = new BirthdayEmailCreator().createEmail(wishable);
-            MailComposer.sendEmail(email);
-            saveOnDisk(email);
-        }
-    }
-
-    private void sendBirthdayGreetings(Wishable wishable) throws IOException, MessagingException {
+    private void sendBirthdayGreetings(Wishable wishable) {
         System.out.println("Sending birthday wishes to newly added recipient!");
-            Email email = new BirthdayEmailCreator().createEmail(wishable);
+        Email email = new BirthdayEmailCreator().createEmail(wishable);
+        try {
             MailComposer.sendEmail(email);
             saveOnDisk(email);
+        } catch (MessagingException | IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void addRecipient(String userInput) {
         String[] recipient = userInput.replaceAll("\\s+", "").split(":|,");
         Recipient recipientObj = RecipientCreator.createRecipient(recipient);
-        if (recipientObj==null) return;
-        allRecipients.add(recipientObj);
-
-        if (recipientObj instanceof Wishable){
-            Wishable wishableRecipient=(Wishable) recipientObj;
-            wishableRecipients.add(wishableRecipient);
-            try {
-                if (DateChecker.isTodayBirthday(wishableRecipient.getBirthday())){
-                    birthdayRecipients.add(wishableRecipient);
-                    try {
-                        sendBirthdayGreetings(wishableRecipient);
-                    } catch (IOException | MessagingException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-            } catch (ParseException e) {
-                System.out.println(e.getMessage());
-            }
+        if (recipientObj==null) {
+            System.out.println("Error: Recipient not Added!");
+            return;
         }
-
         try {
             saveOnDisk(userInput);
             System.out.println("Recipient added Successfully!");
         } catch (IOException e) {
             System.out.println("Error: Recipient Not Saved on disk!");
             System.out.println(e.getMessage());
+        }
+
+        if (recipientObj instanceof Wishable){
+            Wishable wishableRecipient=(Wishable) recipientObj;
+            try {
+                if (DateChecker.isTodayBirthday(wishableRecipient.getBirthday())){
+                    sendBirthdayGreetings(wishableRecipient);
+                }
+            } catch (ParseException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 

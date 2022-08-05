@@ -15,23 +15,14 @@ public class RecipientCreator {
 
     private static final ArrayList<Recipient> allRecipients = new ArrayList<>();
     private static final ArrayList<Wishable> wishableRecipients = new ArrayList<>();
-    private static final ArrayList<String[]> recipientDataList = new ArrayList<>();
-
-    public static ArrayList<Recipient> getAllRecipients() {
-        return allRecipients;
-    }
-
-    public static ArrayList<Wishable> getWishableRecipients() {
-        return wishableRecipients;
-    }
 
     public static Pair<ArrayList<Recipient>, ArrayList<Wishable>> initializeAndGetRecipientLists() throws IOException {
         loadRecipientLists();
-        return new Pair<>(new ArrayList<Recipient>(allRecipients), new ArrayList<Wishable>(wishableRecipients));
+        return new Pair<>(allRecipients, wishableRecipients);
     }
 
     private static void loadRecipientLists() throws IOException {
-        lineByLineText();
+        ArrayList<String[]> recipientDataList =getDataFromSavedFile();
         for (String[] recipientData : recipientDataList) {
             createRecipient(recipientData);
         }
@@ -60,8 +51,8 @@ public class RecipientCreator {
         }
     }
 
-    private static void lineByLineText() throws IOException {
-
+    private static ArrayList<String[]> getDataFromSavedFile() throws IOException {
+        ArrayList<String[]> recipientDataList = new ArrayList<>();
         FileReader reader = new FileReader("src/Main/SavedFiles/clientList.txt");
         BufferedReader bufferedReader = new BufferedReader(reader);
         String line = null;
@@ -70,6 +61,7 @@ public class RecipientCreator {
             recipientDataList.add(recipientData);
         }
         reader.close();
+        return recipientDataList;
     }
 
 }
