@@ -54,12 +54,36 @@ public class EmailClientProgram {
         }
     }
 
+    private void sendBirthdayGreetings(Wishable wishable) throws IOException, MessagingException {
+        System.out.println("Sending birthday wishes to newly added recipient!");
+            Email email = new BirthdayEmailCreator().createEmail(wishable);
+            MailComposer.sendEmail(email);
+            saveOnDisk(email);
+    }
+
     public void addRecipient(String userInput) {
         String[] recipient = userInput.replaceAll("\\s+", "").split(":|,");
-        boolean isAdded = RecipientCreator.addRecipientToList(recipient);
-        if (!isAdded) return;
-        allRecipients = RecipientCreator.getAllRecipients();
-        wishableRecipients = RecipientCreator.getWishableRecipients();
+        Recipient recipientObj = RecipientCreator.createRecipient(recipient);
+        if (recipientObj==null) return;
+        allRecipients.add(recipientObj);
+
+        if (recipientObj instanceof Wishable){
+            Wishable wishableRecipient=(Wishable) recipientObj;
+            wishableRecipients.add(wishableRecipient);
+            try {
+                if (DateChecker.isTodayBirthday(wishableRecipient.getBirthday())){
+                    birthdayRecipients.add(wishableRecipient);
+                    try {
+                        sendBirthdayGreetings(wishableRecipient);
+                    } catch (IOException | MessagingException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            } catch (ParseException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
         try {
             saveOnDisk(userInput);
             System.out.println("Recipient added Successfully!");

@@ -6,8 +6,9 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class SendEmailTLS {
-    private final String username = "isurupramudith.20@cse.mrt.ac.lk";
-    private final String password = "qwerzxcvasdf1234cse";
+    /** Send an email via Gmail SMTP server with TLS*/
+    private final String username = "isurupramudith.20@cse.mrt.ac.lk";//My email
+    private final String password = "cuhdilhfhzgocxzd";//Application-specific password generated using Google App password
     private Session session;
 
     SendEmailTLS() {

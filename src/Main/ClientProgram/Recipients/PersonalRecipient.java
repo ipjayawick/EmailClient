@@ -22,7 +22,7 @@ public class PersonalRecipient extends Recipient implements Wishable {
 
     @Override
     public String getEmail() {
-        return null;
+        return this.email;
     }
 
     @Override
