@@ -32,7 +32,7 @@ public class SendEmailTLS {
 
     void send(String recipientEmail, String subject, String content) throws MessagingException {
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("from@gmail.com"));
+        message.setFrom(new InternetAddress(username));
         message.setRecipients(
                 Message.RecipientType.TO,
                 InternetAddress.parse(recipientEmail)
